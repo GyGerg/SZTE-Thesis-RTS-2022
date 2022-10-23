@@ -1,0 +1,1 @@
+# SZTE-Thesis-RTS-2022
