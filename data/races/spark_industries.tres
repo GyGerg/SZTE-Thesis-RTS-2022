@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Race" load_steps=5 format=3 uid="uid://qwowcww870du"]
+
+[ext_resource type="Texture2D" uid="uid://834rkwv8gkp" path="res://assets/images/iron-mask.png" id="1_f3im0"]
+[ext_resource type="Script" path="res://src/scripts/data/planet_bonuses.gd" id="2_iebg4"]
+[ext_resource type="Script" path="res://src/scripts/data/race.gd" id="3_xl1g5"]
+
+[sub_resource type="Resource" id="Resource_3gyad"]
+script = ExtResource("2_iebg4")
+planet_type = 0
+bonus = 0
+bonus_value = 0.15
+
+[resource]
+script = ExtResource("3_xl1g5")
+name = &"Spark Industries"
+icon = ExtResource("1_f3im0")
+description = "Toni Sztark meg van bolondulva"
+planet_bonuses = Array[ExtResource("2_iebg4")]([SubResource("Resource_3gyad")])

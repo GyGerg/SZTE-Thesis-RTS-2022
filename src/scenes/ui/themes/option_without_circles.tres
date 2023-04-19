@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b7tofqmlvwyc0"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_iqifg"]
+size = Vector2(0, 0)
+
+[resource]
+PopupMenu/constants/item_end_padding = 4
+PopupMenu/constants/item_start_padding = 4
+PopupMenu/icons/radio_checked = SubResource("PlaceholderTexture2D_iqifg")
+PopupMenu/icons/radio_checked_disabled = SubResource("PlaceholderTexture2D_iqifg")
+PopupMenu/icons/radio_unchecked = SubResource("PlaceholderTexture2D_iqifg")
+PopupMenu/icons/radio_unchecked_disabled = SubResource("PlaceholderTexture2D_iqifg")

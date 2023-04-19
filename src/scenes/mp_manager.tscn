@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://blf3ojr8ed5yd"]
+
+[ext_resource type="Script" path="res://src/scripts/mp_sync/mp_manager.gd" id="1_u4jh4"]
+
+[node name="MpManager" type="Node"]
+script = ExtResource("1_u4jh4")

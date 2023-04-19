@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://ct3tyaownltyx"]
+
+[ext_resource type="Theme" uid="uid://bmta17jvh82xa" path="res://src/scenes/ui/themes/player_list_card.tres" id="1_l158q"]
+[ext_resource type="Script" path="res://src/scripts/ui/player_list_card.gd" id="2_t7uq2"]
+[ext_resource type="Texture2D" uid="uid://crsji2kuv8sy1" path="res://assets/images/triton-head.png" id="3_4rg5w"]
+[ext_resource type="Texture2D" uid="uid://dckftm4w7vcuv" path="res://assets/images/check-mark.png" id="4_m7hkj"]
+
+[node name="PlayerListCard" type="HBoxContainer" node_paths=PackedStringArray("icon_holder", "name_label", "ready_icon")]
+custom_minimum_size = Vector2(0, 32)
+offset_right = 200.0
+offset_bottom = 32.0
+theme = ExtResource("1_l158q")
+script = ExtResource("2_t7uq2")
+icon_holder = NodePath("AspectRatioContainer/IconContainer")
+name_label = NodePath("Label")
+ready_icon = NodePath("AspectRatioContainer2/MarginContainer/ReadyRect")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+
+[node name="IconContainer" type="NinePatchRect" parent="AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("3_4rg5w")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 3.0
+text = "Player--00000000"
+vertical_alignment = 1
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer2"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ReadyRect" type="NinePatchRect" parent="AspectRatioContainer2/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("4_m7hkj")

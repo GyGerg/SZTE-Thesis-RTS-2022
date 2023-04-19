@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" uid="uid://cdobqol47qxni" path="res://src/scenes/trial_ship.tscn" id="1_pij2o"]
+[ext_resource type="Script" path="res://src/scripts/springshit.gd" id="2_x5sn4"]
+[ext_resource type="Script" path="res://src/scripts/ui/utils/screen_edge_detect.gd" id="3_fenj4"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_eyawh"]
+radius = 2.0
+
+[node name="player_controlled_ship" type="Node3D"]
+
+[node name="trial_ship" parent="." instance=ExtResource("1_pij2o")]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
+shape = SubResource("SphereShape3D_eyawh")
+script = ExtResource("2_x5sn4")
+
+[node name="CamPivot" type="Node3D" parent="SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.317133, 1.15405)
+script = ExtResource("3_fenj4")
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D/CamPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 1.5)

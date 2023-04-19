@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/scripts/ui/utils/screen_edge_detect.gd" id="1_mkm88"]
+
+[node name="ScreenEdgeDetect" type="Node"]
+script = ExtResource("1_mkm88")

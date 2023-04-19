@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bmta17jvh82xa"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2beu8"]
+bg_color = Color(0.141176, 0.117647, 0.431373, 0.776471)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 2
+
+[resource]
+HBoxContainer/styles/normal = SubResource("StyleBoxFlat_2beu8")

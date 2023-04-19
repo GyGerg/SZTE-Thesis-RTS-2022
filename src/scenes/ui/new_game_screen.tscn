@@ -1,0 +1,155 @@
+[gd_scene load_steps=11 format=3 uid="uid://c26xwdkhpqqqk"]
+
+[ext_resource type="Script" path="res://src/scripts/ui/new_game_screen.gd" id="1_57cun"]
+[ext_resource type="Theme" uid="uid://b7tofqmlvwyc0" path="res://src/scenes/ui/themes/option_without_circles.tres" id="2_jmlns"]
+[ext_resource type="Script" path="res://src/scripts/ui/lobby_race_container.gd" id="2_n2mo4"]
+[ext_resource type="Script" path="res://src/scripts/ui/player_list.gd" id="3_v2tbh"]
+[ext_resource type="PackedScene" uid="uid://ct3tyaownltyx" path="res://src/scenes/ui/player_list_card.tscn" id="4_80fki"]
+[ext_resource type="Script" path="res://src/scripts/ui/lobby/race_selector.gd" id="4_ge6uh"]
+[ext_resource type="Script" path="res://src/scripts/ui/lobby/color_selector.gd" id="5_12inn"]
+[ext_resource type="Theme" uid="uid://loe77uwmapbv" path="res://src/scenes/ui/themes/lobby_button.tres" id="5_y26qe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yp33o"]
+skew = Vector2(0.25, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 20
+corner_radius_top_right = 5
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 5
+
+[sub_resource type="Theme" id="Theme_iws3p"]
+/styles/normal = SubResource("StyleBoxFlat_yp33o")
+
+[node name="NewGameScreenSP" type="Panel" node_paths=PackedStringArray("_gui_race_selector", "_gui_color_selector", "_gui_player_list", "_gui_match_button")]
+process_priority = 10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_57cun")
+_dir_name = "res://data/races"
+_gui_race_selector = NodePath("RaceContainer/RaceSelector")
+_gui_color_selector = NodePath("ColorSelector")
+_gui_player_list = NodePath("PlayerList")
+_gui_match_button = NodePath("CenterContainer/HBoxContainer/MatchButton")
+
+[node name="RaceContainer" type="VBoxContainer" parent="." node_paths=PackedStringArray("icon_holder", "description_label", "bonuses_label")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.3
+anchor_bottom = 0.95
+theme_override_constants/separation = 10
+script = ExtResource("2_n2mo4")
+icon_holder = NodePath("AspectRatioContainer/SelectedRaceIconBackground/SelectedRaceIcon")
+description_label = NodePath("DescriptionContainer/DescriptionLabel")
+bonuses_label = NodePath("BonusesContainer/BonusesLabel")
+
+[node name="SelectedRaceLabel" type="Label" parent="RaceContainer"]
+layout_mode = 2
+theme = SubResource("Theme_iws3p")
+theme_override_font_sizes/font_size = 24
+text = "Selected race"
+horizontal_alignment = 1
+
+[node name="RaceSelector" type="OptionButton" parent="RaceContainer"]
+layout_mode = 2
+theme = ExtResource("2_jmlns")
+script = ExtResource("4_ge6uh")
+_dir_name = "res://data/races"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="RaceContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+
+[node name="SelectedRaceIconBackground" type="ColorRect" parent="RaceContainer/AspectRatioContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.0784314, 0.0784314, 0.0784314, 0.196078)
+
+[node name="SelectedRaceIcon" type="NinePatchRect" parent="RaceContainer/AspectRatioContainer/SelectedRaceIconBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DescriptionContainer" type="ScrollContainer" parent="RaceContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DescriptionLabel" type="Label" parent="RaceContainer/DescriptionContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "[DESCRIPTION]"
+autowrap_mode = 1
+
+[node name="BonusesContainer" type="ScrollContainer" parent="RaceContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.7
+
+[node name="BonusesLabel" type="Label" parent="RaceContainer/BonusesContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "[BONUSES]"
+
+[node name="ColorSelector" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 432.0
+offset_top = 120.0
+offset_right = 499.0
+offset_bottom = 140.0
+theme = ExtResource("2_jmlns")
+script = ExtResource("5_12inn")
+pickable_colors = Array[Color]([Color(0.117647, 0.564706, 1, 1), Color(0.862745, 0.0784314, 0.235294, 1), Color(0.854902, 0.647059, 0.12549, 1), Color(1, 0, 1, 1), Color(0.294118, 0, 0.509804, 1), Color(0.196078, 0.803922, 0.196078, 1)])
+
+[node name="PlayerList" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 447.0
+offset_top = 180.0
+offset_right = 899.0
+offset_bottom = 434.0
+script = ExtResource("3_v2tbh")
+player_card = ExtResource("4_80fki")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.8
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_left = -3.05176e-05
+offset_right = -6.10352e-05
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="MatchButton" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_y26qe")
+theme_override_font_sizes/font_size = 32
+text = "Ready"
+
+[node name="LeaveButton" type="Button" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5_y26qe")
+theme_override_font_sizes/font_size = 32
+text = "Leave Game"
+
+[connection signal="item_selected" from="RaceContainer/RaceSelector" to="." method="_on_race_changed_idx"]
+[connection signal="item_selected" from="ColorSelector" to="." method="_on_color_changed_idx"]
+[connection signal="pressed" from="CenterContainer/HBoxContainer/MatchButton" to="." method="_on_match_button_click"]

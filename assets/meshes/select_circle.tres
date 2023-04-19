@@ -1,0 +1,10 @@
+[gd_resource type="TorusMesh" load_steps=2 format=3 uid="uid://cvefbvpsij0lu"]
+
+[ext_resource type="Material" uid="uid://c7x3qsde0p4dc" path="res://assets/meshes/select_circle_mat.tres" id="1_36iwg"]
+
+[resource]
+material = ExtResource("1_36iwg")
+inner_radius = 0.4
+outer_radius = 0.45
+rings = 16
+ring_segments = 4

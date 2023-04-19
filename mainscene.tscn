@@ -1,0 +1,131 @@
+[gd_scene load_steps=20 format=3 uid="uid://bv06njlc1hyet"]
+
+[ext_resource type="Script" path="res://src/scripts/ui/screen_edge_movement.gd" id="2_5d5ij"]
+[ext_resource type="Script" path="res://src/scripts/selected_units_counter.gd" id="2_v1hal"]
+[ext_resource type="Script" path="res://src/scripts/ship_spawner_stress_test.gd" id="3_1buft"]
+[ext_resource type="Script" path="res://src/scripts/ui/game/rts/CursorManager.cs" id="3_wj6q3"]
+[ext_resource type="Script" path="res://src/scripts/ui/game/rts/SelectUnitsControl.cs" id="4_p4mcv"]
+[ext_resource type="PackedScene" path="res://src/scenes/height_cursor.tscn" id="6_l3cmy"]
+[ext_resource type="Script" path="res://src/scripts/proc_gen/blue_noise.gd" id="8_80ylg"]
+[ext_resource type="PackedScene" path="res://src/scenes/utils/screen_edge_detect.tscn" id="9_4govk"]
+[ext_resource type="Script" path="res://src/scripts/generate_random_balls.gd" id="9_jn6rh"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0ycbn"]
+
+[sub_resource type="Sky" id="Sky_3d01s"]
+sky_material = SubResource("PanoramaSkyMaterial_0ycbn")
+
+[sub_resource type="Environment" id="Environment_7eeov"]
+background_mode = 3
+sky = SubResource("Sky_3d01s")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_dr8pw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6nwqg"]
+transparency = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_snv14"]
+material = SubResource("StandardMaterial3D_6nwqg")
+outer_radius = 0.6
+rings = 16
+ring_segments = 4
+
+[sub_resource type="MultiMesh" id="MultiMesh_qgvb6"]
+transform_format = 1
+use_colors = true
+mesh = SubResource("TorusMesh_snv14")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ttf4x"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_gf0qy"]
+material = SubResource("StandardMaterial3D_ttf4x")
+
+[sub_resource type="MultiMesh" id="MultiMesh_ryke3"]
+transform_format = 1
+use_colors = true
+mesh = SubResource("SphereMesh_gf0qy")
+
+[node name="TrialEnvironment" type="WorldEnvironment"]
+environment = SubResource("Environment_7eeov")
+camera_attributes = SubResource("CameraAttributesPractical_dr8pw")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="UnitSelector" type="Control" parent="UI" node_paths=PackedStringArray("_multiMesh")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("4_p4mcv")
+_multiMesh = NodePath("MultiMeshInstance3D")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="UI/UnitSelector"]
+multimesh = SubResource("MultiMesh_qgvb6")
+
+[node name="Button" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 590.0
+offset_right = 256.0
+offset_bottom = 644.0
+text = "Try to drag from
+ here betch"
+
+[node name="SelectedUnitsCounter" type="Label" parent="UI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Selected Units: 0"
+script = ExtResource("2_v1hal")
+
+[node name="CameraController" type="Node3D" parent="."]
+script = ExtResource("2_5d5ij")
+zoom_backward_limit = 200
+zoom_speed_multiplier = 200
+scroll_speed = 8.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraController"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866026, 0, -0.866025, 0.5, 0, 10, 6)
+
+[node name="CursorManager" type="Node3D" parent="CameraController/Camera3D"]
+script = ExtResource("3_wj6q3")
+heightCursorScene = ExtResource("6_l3cmy")
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="ShipSpawner" type="Node3D" parent="Node3D"]
+script = ExtResource("3_1buft")
+spread = 1.0
+dim_size = 1
+
+[node name="Children" type="Node3D" parent="Node3D/ShipSpawner"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Node3D/ShipSpawner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.17854, 4.90537, -4.55605)
+light_color = Color(0.898039, 0, 0.901961, 1)
+light_energy = 4.876
+omni_range = 11.835
+
+[node name="Units" type="Node" parent="Node3D"]
+
+[node name="Utils" type="Node" parent="."]
+
+[node name="ScreenEdgeCameraMove" parent="Utils" instance=ExtResource("9_4govk")]
+
+[node name="BlueNoiseGen" type="Node3D" parent="."]
+script = ExtResource("8_80ylg")
+sector_count_axis = 10
+
+[node name="Node3D" type="MultiMeshInstance3D" parent="BlueNoiseGen"]
+multimesh = SubResource("MultiMesh_ryke3")
+script = ExtResource("9_jn6rh")
+
+[connection signal="OnSelectedUnitsChanged" from="UI/UnitSelector" to="UI/SelectedUnitsCounter" method="_on_selected_count_change"]
+[connection signal="distance_changed" from="CameraController" to="UI/UnitSelector" method="OnCameraDistanceChanged"]
+[connection signal="OnRightClick" from="CameraController/Camera3D/CursorManager" to="UI/UnitSelector" method="MoveSelectedUnitsTowards"]
+[connection signal="done_instancing" from="Node3D/ShipSpawner" to="UI/UnitSelector" method="OnSceneDoneInstancing" flags=6]
+[connection signal="edge_detected_process" from="Utils/ScreenEdgeCameraMove" to="CameraController" method="on_edge_move"]

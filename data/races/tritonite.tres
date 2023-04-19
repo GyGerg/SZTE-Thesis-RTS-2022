@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Race" load_steps=3 format=3 uid="uid://i3pcy8cntfqa"]
+
+[ext_resource type="Texture2D" uid="uid://crsji2kuv8sy1" path="res://assets/images/triton-head.png" id="1_dpio8"]
+[ext_resource type="Script" path="res://src/scripts/data/race.gd" id="2_e1mbg"]
+
+[resource]
+script = ExtResource("2_e1mbg")
+name = &"Tritonite"
+icon = ExtResource("1_dpio8")
+description = "Mivan triptonikus babetta xddddddddddd"
+planet_bonuses = Array[Resource("res://src/scripts/data/planet_bonuses.gd")]([null])

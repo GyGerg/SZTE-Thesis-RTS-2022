@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwfiogq4qjjt0"]
+
+[ext_resource type="Script" path="res://src/scripts/player_data/player.gd" id="1_6pt3f"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_372d3"]
+properties/0/path = NodePath(".:player_id")
+properties/0/spawn = true
+properties/0/sync = false
+properties/1/path = NodePath(".:color")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:_race_path")
+properties/2/spawn = true
+properties/2/sync = true
+
+[node name="Player" type="Node"]
+script = ExtResource("1_6pt3f")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_372d3")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://src/scenes/state/player/player_ready.tscn")
+spawn_path = NodePath("..")
