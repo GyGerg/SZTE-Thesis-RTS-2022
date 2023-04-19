@@ -1,12 +1,17 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SZTE-Thesis-RTS-2022", "SZTE-Thesis-RTS-2022.csproj", "{BEFA7C1E-868F-472B-B762-8377B1E1A9FC}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SZTE-Thesis-RTS-2022", "SZTE-Thesis-RTS-2022.csproj", "{BEFA7C1E-868F-472B-B762-8377B1E1A9FC}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PathfindingFS", "libs\PathfindingFS\PathfindingFS.fsproj", "{7162DD72-1912-46D2-B190-9A3A93F151E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BEFA7C1E-868F-472B-B762-8377B1E1A9FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +20,17 @@ Global
 		{BEFA7C1E-868F-472B-B762-8377B1E1A9FC}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{BEFA7C1E-868F-472B-B762-8377B1E1A9FC}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{BEFA7C1E-868F-472B-B762-8377B1E1A9FC}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{7162DD72-1912-46D2-B190-9A3A93F151E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7162DD72-1912-46D2-B190-9A3A93F151E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7162DD72-1912-46D2-B190-9A3A93F151E1}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7162DD72-1912-46D2-B190-9A3A93F151E1}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{7162DD72-1912-46D2-B190-9A3A93F151E1}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{7162DD72-1912-46D2-B190-9A3A93F151E1}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76E4F243-BB11-4556-BA88-28DB480DDFC2}
 	EndGlobalSection
 EndGlobal

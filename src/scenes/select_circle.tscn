@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://60g2t82hg1ah"]
+
+[ext_resource type="TorusMesh" uid="uid://cvefbvpsij0lu" path="res://assets/meshes/select_circle.tres" id="1_84h37"]
+
+[node name="select_circle" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_84h37")

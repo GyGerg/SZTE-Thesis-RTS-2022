@@ -8,12 +8,66 @@
 
 config_version=5
 
+[MonoCustomResourceRegistry]
+
+ResourceScriptDirectories=["res://"]
+SearchType=0
+ClassPrefix=""
+
 [application]
 
 config/name="SZTE-Thesis-RTS-2022"
-config/features=PackedStringArray("4.0", "Forward Plus")
+run/main_scene="res://main_scene_for_real.tscn"
+config/features=PackedStringArray("4.0", "C#", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://src/scenes/state/game_state.tscn"
+MpManager="*res://src/scripts/mp_sync/mp_manager.gd"
 
 [dotnet]
 
 project/assembly_name="SZTE-Thesis-RTS-2022"
+
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/MonoCustomResourceRegistry/plugin.cfg")
+
+[input]
+
+scroll_action_up={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(99, 16),"global_position":Vector2(103, 61),"factor":1.0,"button_index":4,"pressed":true,"double_click":false,"script":null)
+]
+}
+scroll_action_down={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(135, 10),"global_position":Vector2(139, 55),"factor":1.0,"button_index":5,"pressed":true,"double_click":false,"script":null)
+]
+}
+scroll_action_any={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":8,"position":Vector2(252, 21),"global_position":Vector2(256, 66),"factor":1.0,"button_index":4,"pressed":true,"double_click":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":16,"position":Vector2(154, 7),"global_position":Vector2(158, 52),"factor":1.0,"button_index":5,"pressed":true,"double_click":false,"script":null)
+]
+}
+
+[mono]
+
+export/aot/enabled=true
+export/aot/full_aot=true
+
+[physics]
+
+3d/run_on_separate_thread=true
+
+[rendering]
+
+driver/threads/thread_model=0

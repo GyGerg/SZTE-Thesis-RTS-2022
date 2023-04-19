@@ -1,7 +1,20 @@
-<Project Sdk="Godot.NET.Sdk/4.0.0-beta.3">
+﻿<Project Sdk="Godot.NET.Sdk/4.0.0">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>SZTEThesisRTS2022</RootNamespace>
+    <Nullable>enable</Nullable>
+    <Optimize>true</Optimize>
+    <TieredCompilation>true</TieredCompilation>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.HighPerformance" Version="8.0.0" />
+    <PackageReference Include="NoAlloq" Version="0.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="addons" />
+    <Folder Include="addons\pid_controller" />
+    <Folder Include="src\editor" />
+  </ItemGroup>
 </Project>

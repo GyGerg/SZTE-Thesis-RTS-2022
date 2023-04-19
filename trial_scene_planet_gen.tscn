@@ -1,0 +1,140 @@
+[gd_scene load_steps=23 format=3 uid="uid://tpwtgn1ku6j"]
+
+[ext_resource type="Script" path="res://src/scripts/proc_gen/blue_noise.gd" id="1_gf21j"]
+[ext_resource type="Script" path="res://src/scripts/ui/screen_edge_movement.gd" id="1_t5a43"]
+[ext_resource type="Script" path="res://src/scripts/ui/utils/screen_edge_detect.gd" id="2_a6cx6"]
+[ext_resource type="Script" path="res://src/scripts/generate_random_balls.gd" id="2_mokd3"]
+[ext_resource type="Texture2D" uid="uid://b482v12rq0m7h" path="res://assets/images/galaxy/galaxy+X.tga" id="5_6w6dr"]
+[ext_resource type="Shader" path="res://src/shaders/star.gdshader" id="5_xui10"]
+[ext_resource type="Script" path="res://src/scripts/data/planet_stats.gd" id="7_gu03g"]
+[ext_resource type="Script" path="res://src/scripts/trymecs/TryMe.cs" id="7_nfhkv"]
+[ext_resource type="Resource" uid="uid://dn0kiv3h2eh0n" path="res://src/trymeres.tres" id="8_nvklf"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_8jj7u"]
+panorama = ExtResource("5_6w6dr")
+
+[sub_resource type="Sky" id="Sky_4hxem"]
+sky_material = SubResource("PanoramaSkyMaterial_8jj7u")
+
+[sub_resource type="Environment" id="Environment_bptr1"]
+background_mode = 2
+sky = SubResource("Sky_4hxem")
+sdfgi_read_sky_light = false
+sdfgi_min_cell_size = 1.0
+sdfgi_cascade0_distance = 64.0
+sdfgi_max_distance = 1024.0
+glow_enabled = true
+glow_levels/1 = 0.5
+glow_levels/2 = 0.5
+glow_levels/3 = 0.13
+glow_levels/5 = 0.0
+glow_blend_mode = 0
+glow_hdr_threshold = 2.06
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_a774f"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_x0lq8"]
+noise_type = 3
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kyems"]
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_x0lq8")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dgdvi"]
+noise_type = 2
+fractal_type = 3
+fractal_octaves = 2
+fractal_gain = 0.797
+fractal_weighted_strength = 0.32
+cellular_distance_function = 3
+cellular_jitter = 1.0
+cellular_return_type = 0
+domain_warp_amplitude = 19.001
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6xrsv"]
+in_3d_space = true
+seamless = true
+noise = SubResource("FastNoiseLite_dgdvi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdgoe"]
+render_priority = 0
+shader = ExtResource("5_xui10")
+shader_parameter/Glow_Power = 6.0
+shader_parameter/Lightness_Difference = 4.0
+shader_parameter/Sun_Color = Color(0.921569, 0.552941, 0.129412, 1)
+shader_parameter/use_custom_color = true
+shader_parameter/waveSpeed = 0.073
+shader_parameter/fresnel = 1.1
+shader_parameter/scale = 0.859
+shader_parameter/blendSharpness = 0.139
+shader_parameter/voronoi_noise = SubResource("NoiseTexture2D_6xrsv")
+shader_parameter/emission_noise = SubResource("NoiseTexture2D_kyems")
+
+[sub_resource type="SphereMesh" id="SphereMesh_lo5m1"]
+material = SubResource("ShaderMaterial_jdgoe")
+radial_segments = 32
+rings = 16
+
+[sub_resource type="MultiMesh" id="MultiMesh_1njq2"]
+transform_format = 1
+use_colors = true
+use_custom_data = true
+mesh = SubResource("SphereMesh_lo5m1")
+
+[sub_resource type="Resource" id="Resource_3raid"]
+script = ExtResource("7_gu03g")
+num_of_moons = 1
+star_color = Color(1, 0.54902, 0, 1)
+planet_type = 1
+
+[sub_resource type="Environment" id="Environment_g85kf"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bptr1")
+camera_attributes = SubResource("CameraAttributesPractical_a774f")
+
+[node name="ScreenEdgeMovement" type="Node3D" parent="."]
+script = ExtResource("1_t5a43")
+zoom_backward_limit = 500
+zoom_forward_limit = 5.0
+zoom_speed_multiplier = 200
+scroll_speed = 39.62
+
+[node name="Camera3D" type="Camera3D" parent="ScreenEdgeMovement"]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 50, 30)
+current = true
+
+[node name="ScreenEdgeDetect" type="Node" parent="ScreenEdgeMovement"]
+script = ExtResource("2_a6cx6")
+
+[node name="BlueNoiseGen" type="Node3D" parent="."]
+script = ExtResource("1_gf21j")
+sector_size_in_units = 250
+sector_count_axis = 2
+density = 7.0
+sector_margin_proportion = 0.05
+
+[node name="GeneratePlanets" type="MultiMeshInstance3D" parent="BlueNoiseGen"]
+cast_shadow = 0
+multimesh = SubResource("MultiMesh_1njq2")
+script = ExtResource("2_mokd3")
+min_scale = 2.0
+max_scale = 4.0
+ar = Array[int]([4])
+possible_planets = Array[ExtResource("7_gu03g")]([SubResource("Resource_3raid")])
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 500, 0)
+environment = SubResource("Environment_g85kf")
+projection = 1
+size = 500.0
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("7_nfhkv")
+resShet = ExtResource("8_nvklf")
+
+[connection signal="edge_detected_process" from="ScreenEdgeMovement/ScreenEdgeDetect" to="ScreenEdgeMovement" method="on_edge_move"]

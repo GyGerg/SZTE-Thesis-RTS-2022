@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bp745b34qa3fo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m00q3"]
+albedo_color = Color(1, 0.290196, 0.258824, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_q5dip"]
+material = SubResource("StandardMaterial3D_m00q3")
+radius = 0.3
+height = 0.6
+
+[node name="ball" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_q5dip")

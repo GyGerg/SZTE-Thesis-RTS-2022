@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu20q3l0yh8rr"]
+
+[ext_resource type="Script" path="res://src/scripts/mp_sync/main_scene.gd" id="1_q58nf"]
+[ext_resource type="PackedScene" uid="uid://dbqo8siq2qfud" path="res://src/scenes/ui/main_menu.tscn" id="3_2suw6"]
+
+[node name="MainSceneForReal" type="Node" node_paths=PackedStringArray("shared_ui_container")]
+script = ExtResource("1_q58nf")
+shared_ui_container = NodePath("UI")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MainMenu" parent="UI" instance=ExtResource("3_2suw6")]
+layout_mode = 1
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="UI"]
+process_priority = 5
+_spawnable_scenes = PackedStringArray("res://src/scenes/ui/new_game_screen.tscn")
+spawn_path = NodePath("..")
+
+[connection signal="on_peer_created" from="UI/MainMenu" to="." method="_on_peer_created"]
