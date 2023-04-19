@@ -41,11 +41,16 @@ const ReadyPrefab := preload("res://src/scenes/state/player/player_ready.tscn")
 @export var player_id:int=1 :
 	set(id):
 		player_id = id
+#		$MultiplayerSynchronizer.set_multiplayer_authority(id)
+		
+func _enter_tree():
+	pass
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var parent := get_parent() as PlayerManager
 	print("%s -- player spawned with %s" % [str(multiplayer.get_unique_id()), str(player_id)])
 	setup_done.emit()
-	get_tree().create_timer(0).timeout.connect(func(): 
-		self.set_multiplayer_authority(player_id))
+#	get_tree().create_timer(0).timeout.connect(func(): 
+#		self.set_multiplayer_authority(player_id))
 	pass # Replace with function body.

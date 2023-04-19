@@ -27,4 +27,4 @@ func _get_color_texture(color:Color) -> GradientTexture2D:
 
 func add_color_item(color:Color) -> void:
 	add_icon_item(_get_color_texture(color),"")
-	inner_popup.set_item_as_radio_checkable(item_count,false)
+	inner_popup.set_item_as_radio_checkable(item_count-1,false)

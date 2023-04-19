@@ -6,9 +6,9 @@
 
 [sub_resource type="Resource" id="Resource_3gyad"]
 script = ExtResource("2_iebg4")
-planet_type = 0
 bonus = 0
 bonus_value = 0.15
+planet_type = 0
 
 [resource]
 script = ExtResource("3_xl1g5")

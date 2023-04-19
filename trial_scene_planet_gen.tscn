@@ -1,5 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://tpwtgn1ku6j"]
+[gd_scene load_steps=24 format=3 uid="uid://tpwtgn1ku6j"]
 
+[ext_resource type="Script" path="res://src/scripts/game/match.gd" id="1_bekhi"]
 [ext_resource type="Script" path="res://src/scripts/proc_gen/blue_noise.gd" id="1_gf21j"]
 [ext_resource type="Script" path="res://src/scripts/ui/screen_edge_movement.gd" id="1_t5a43"]
 [ext_resource type="Script" path="res://src/scripts/ui/utils/screen_edge_detect.gd" id="2_a6cx6"]
@@ -85,13 +86,18 @@ mesh = SubResource("SphereMesh_lo5m1")
 
 [sub_resource type="Resource" id="Resource_3raid"]
 script = ExtResource("7_gu03g")
+name = "Namek vagy mi"
 num_of_moons = 1
 star_color = Color(1, 0.54902, 0, 1)
+star_scale = 3
 planet_type = 1
 
 [sub_resource type="Environment" id="Environment_g85kf"]
 
-[node name="Node3D" type="Node3D"]
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("generator", "planet_gen")]
+script = ExtResource("1_bekhi")
+generator = NodePath("BlueNoiseGen")
+planet_gen = NodePath("BlueNoiseGen/GeneratePlanets")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_bptr1")
@@ -109,6 +115,7 @@ transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 50, 30)
 current = true
 
 [node name="ScreenEdgeDetect" type="Node" parent="ScreenEdgeMovement"]
+process_mode = 4
 script = ExtResource("2_a6cx6")
 
 [node name="BlueNoiseGen" type="Node3D" parent="."]

@@ -3,6 +3,9 @@ class_name NewGameScreen extends Control
 @onready var shared : PlayerManager = GameState.get_node("Players")
 @export_dir var _dir_name:String
 
+
+signal start_game()
+
 @export_group("GUI Items", "_gui_")
 @export var _gui_race_selector : RaceSelector
 @export var _gui_color_selector : ColorSelector
@@ -23,7 +26,7 @@ func _ready():
 		shared.local_player.add_child(PlayerData.ReadyPrefab.instantiate())
 	
 	shared.player_spawned.connect(add_player_to_list)
-	shared.player_leaving.connect(remove_player_from_list)
+	shared.player_left.connect(remove_player_from_list)
 	
 	for player in shared.players.values():
 		add_player_to_list(player as PlayerData)
@@ -99,8 +102,7 @@ func _start_match():
 		var parent := get_parent()
 		parent.remove_child(self)
 		self.queue_free()
-	
-	OS.alert("Game is running ya dingus")
+		start_game.emit()
 	
 func _clear_ready_components() -> void:
 	if multiplayer.is_server():
@@ -137,17 +139,15 @@ func _change_ready_for(player:PlayerData):
 		chld.queue_free()
 	else:
 		player.add_child(PlayerData.ReadyPrefab.instantiate())
-	
+
+@rpc("any_peer", "unreliable_ordered")
 func _change_ready():
-	var player := shared.local_player
-	_change_ready_for(player)
-	
-func _change_ready_remote():
-	var sender := multiplayer.get_remote_sender_id()
-	if sender == 0:
-		return
-	_change_ready_for(shared.players[str(sender)])
-	
+	if multiplayer.is_server():
+		var sender := multiplayer.get_remote_sender_id()
+		var player : PlayerData = shared.local_player if sender == 0 else shared.players[str(sender)]
+		_change_ready_for(player)
+	else:
+		_change_ready.rpc_id(1)
 	
 	
 func remove_player_from_list(player:PlayerData):
@@ -176,14 +176,24 @@ func _refresh_colors_available() -> void:
 		_gui_color_selector.set_item_disabled(i, colors.has(tx_color))
 	pass
 
+@rpc("any_peer", "unreliable_ordered")
 func _on_race_changed_idx(idx:int):
-	var child : PlayerData = shared.local_player
-	child.race = _gui_race_selector.pickable_races[idx]
-
+	if multiplayer.is_server():
+		var sender := multiplayer.get_remote_sender_id()
+		var child : PlayerData = shared.local_player if sender == 0 else shared.players[str(sender)]
+		
+		child.race = _gui_race_selector.pickable_races[idx]
+	else:
+		_on_race_changed_idx.rpc_id(1,idx)
+		
+@rpc("any_peer", "unreliable_ordered")
 func _on_color_changed_idx(idx:int) -> void:
-	var child : PlayerData = shared.local_player
-	child.color = _gui_color_selector.pickable_colors[idx]
-
+	if multiplayer.is_server():
+		var sender := multiplayer.get_remote_sender_id()
+		var child : PlayerData = shared.local_player if sender == 0 else shared.players[str(sender)]
+		child.color = _gui_color_selector.pickable_colors[idx]
+	else:
+		_on_color_changed_idx.rpc_id(1,idx)
 	
 func _change_local_color(color:Color):
 	_gui_color_selector.selected = _gui_color_selector.pickable_colors.find(color)

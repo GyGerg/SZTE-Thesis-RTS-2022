@@ -25,4 +25,8 @@ process_priority = 5
 _spawnable_scenes = PackedStringArray("res://src/scenes/ui/new_game_screen.tscn")
 spawn_path = NodePath("..")
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://trial_scene_planet_gen.tscn")
+spawn_path = NodePath("..")
+
 [connection signal="on_peer_created" from="UI/MainMenu" to="." method="_on_peer_created"]

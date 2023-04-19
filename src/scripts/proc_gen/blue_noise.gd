@@ -27,22 +27,6 @@ var _rng:=RandomNumberGenerator.new()
 var start_seed := "try_me_lmao"
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	generate_done.connect(func():pass, CONNECT_ONE_SHOT)
-#	if int(divved) != divved:
-#		set_process(false)
-#		return
-	
-	var start_time := Time.get_ticks_msec()
-	generate()
-	var end_time := Time.get_ticks_msec()
-	var final_values:int = 0
-	for chunk_key in chunks:
-		var cnt := (chunks[chunk_key] as Array).size()
-		print("%s - amount of items: %s" % [chunk_key, cnt])
-		if cnt:
-			final_values += cnt
-	await get_tree().create_timer(0).timeout
-	print("Generation finished in %s msec, final points size: %s" % [(end_time-start_time), str(final_values)])
 	pass # Replace with function body.
 
 ### Returns a dictionary with Vector2 keys for positions (gonna bite me in the ass ig)

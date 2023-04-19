@@ -4,8 +4,11 @@ class_name MpManagerClass extends Node
 @onready var player_manager : PlayerManager = GameState.get_node("Players")
 const PORT := 4433
 
+
 signal peer_created()
 signal peer_initialized()
+
+
 
 func start_client(ip:String,port:int=PORT) -> ENetMultiplayerPeer:
 	var peer := ENetMultiplayerPeer.new()

@@ -21,7 +21,9 @@ func create_player(idx:int):
 	
 	var player := player_prefab.instantiate() as PlayerData
 	player.player_id = idx
-	player.name = "Player--%s" % s_id
+	player.name = "Player--%s" % str(player.player_id)
+	
+	
 	add_child(player)
 	print("%s joined" % s_id)
 	
@@ -37,7 +39,7 @@ func _call_player_spawned(node:Node):
 	if not child:
 		print(child.name)
 		return
-	await child.setup_done
+	await child.ready
 	if child.player_id == multiplayer.get_unique_id():
 		print("%s -- found local player" % str(multiplayer.get_unique_id()))
 		local_player = child
