@@ -13,11 +13,11 @@ This list is subject to change
   - [ ] Steering behaviors for regular units with 2D movement
   - [ ] Steering behaviors for 3D objects, such as spaceships and/or planes
 - [ ] Networking
-  - [ ] Ability to host/connect to games
+  - [X] Ability to host/connect to games
   - [X] Player connect/disconnect behavior
   - [ ] Ability to kick players as host
   - [ ] Server list to browse games to connect to
-  - [ ] Manage connecting players
+  - [ ] Manage connecting players (kick on join if the game's already starting/running, no spectators)
 - [ ] City builder module
 - [ ] "Classic" RTS module
 - [ ] 3D RTS module (inspired by Homeworld)
