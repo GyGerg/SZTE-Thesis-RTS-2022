@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://d0kku2kkxydqi"]
+
+[ext_resource type="PackedScene" uid="uid://c5fye12quyrrs" path="res://src/scenes/ui/ingame/ui_icon.tscn" id="1_an1d4"]
+[ext_resource type="Script" path="res://src/scripts/ui/game/unit_preview.gd" id="1_xhwxq"]
+[ext_resource type="Script" path="res://src/scripts/ui/game/health_bar.gd" id="4_sgxtu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_stwjl"]
+font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajbo3"]
+bg_color = Color(0.207843, 0.207843, 0.207843, 0.588235)
+corner_detail = 1
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ao7uk"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7k34k"]
+texture = SubResource("CanvasTexture_ao7uk")
+modulate_color = Color(0.000296295, 0.925468, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_llpeg"]
+offsets = PackedFloat32Array(0.184713, 0.458599, 0.66242, 1)
+colors = PackedColorArray(0.794399, 2.26215e-06, 0, 1, 0.992157, 0.843137, 0, 1, 1, 0.85098, 0, 1, 0, 0.92549, 0, 1)
+
+[node name="UnitPreview" node_paths=PackedStringArray("ui_progress", "ui_unit_counter") instance=ExtResource("1_an1d4")]
+script = ExtResource("1_xhwxq")
+ui_progress = NodePath("MarginContainer/Background/IconMarginContainer/Icon/HealthBarMarginContainer/HealthBar")
+ui_unit_counter = NodePath("MarginContainer/Background/IconMarginContainer/Icon/CounterMarginContainer/UnitCounter")
+_unit_count = 0
+
+[node name="CounterMarginContainer" type="MarginContainer" parent="MarginContainer/Background/IconMarginContainer/Icon" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="UnitCounter" type="Label" parent="MarginContainer/Background/IconMarginContainer/Icon/CounterMarginContainer" index="0"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "0"
+label_settings = SubResource("LabelSettings_stwjl")
+
+[node name="HealthBarMarginContainer" type="MarginContainer" parent="MarginContainer/Background/IconMarginContainer/Icon" index="1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/Background/IconMarginContainer/Icon/HealthBarMarginContainer" index="0"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/background = SubResource("StyleBoxFlat_ajbo3")
+theme_override_styles/fill = SubResource("StyleBoxTexture_7k34k")
+show_percentage = false
+script = ExtResource("4_sgxtu")
+gradient = SubResource("Gradient_llpeg")
+colorPath = "get_theme_stylebox(\"fill\").modulate_color"
