@@ -5,8 +5,6 @@ signal color_changed(old_color:Race,new_color:Race)
 
 signal setup_done()
 
-const ReadyPrefab := preload("res://src/scenes/state/player/player_ready.tscn")
-
 @export var _race_path:String : 
 	set(val):
 		
@@ -48,7 +46,6 @@ func _enter_tree():
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var parent := get_parent() as PlayerManager
 	print("%s -- player spawned with %s" % [str(multiplayer.get_unique_id()), str(player_id)])
 	setup_done.emit()
 #	get_tree().create_timer(0).timeout.connect(func(): 

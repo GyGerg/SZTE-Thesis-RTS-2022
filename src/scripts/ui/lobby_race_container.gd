@@ -13,8 +13,8 @@ func _ready():
 		await player_manager.player_spawned
 	
 	var p := player_manager.local_player
-	p.race_changed.connect(func(o,r):_change_local_race(r))
-	p.color_changed.connect(func(o,c):_change_local_color(c))
+	p.race_changed.connect(func(_o,r):_change_local_race(r))
+	p.color_changed.connect(func(_o,c):_change_local_color(c))
 	
 	_change_local_color(p.color)
 	while p.race == null:
@@ -23,21 +23,22 @@ func _ready():
 	
 	pass # Replace with function body.
 	
-func _change_local_race(race:Race):
-	print("CHANGE LOCAL RACE")
-	icon_holder.texture = race.icon
-	description_label.text = race.description
-	
+func _animate_description(text:String):
 	if desc_tween:
 		desc_tween.kill()
 	desc_tween = description_label.create_tween()
 	description_label.visible_characters=0
-	desc_tween.tween_property(description_label,"visible_characters", race.description.length(), race.description.length() * 0.03)
+	desc_tween.tween_property(description_label,"visible_characters", text.length(), text.length() * 0.03)
+
+func _change_local_race(race:Race):
+	icon_holder.texture = race.icon
+	description_label.text = race.description
+	
+	_animate_description(race.description)
 		
 	pass
 	
 func _change_local_color(color:Color):
-	print("CHANGE LOCAL COLOR")
 	if color_tween:
 			color_tween.kill()
 	color_tween = icon_holder.create_tween()

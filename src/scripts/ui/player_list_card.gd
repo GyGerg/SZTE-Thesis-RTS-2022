@@ -21,22 +21,21 @@ func _ready():
 	player_data.color_changed.connect(change_color_from_signal)
 	player_data.race_changed.connect(change_race_from_signal)
 	
-	player_data.child_entered_tree.connect(_on_ready_change)
-	player_data.child_exiting_tree.connect(func(x:Node):
-		if not x is PlayerReady:
-			return
-		await x.tree_exited
-		_on_ready_change(x))
-	
+	var player_manager := (GameState.get_node("Players") as PlayerManager)
+	player_manager.player_ready_changed.connect(func(p:PlayerData):
+		if player_data == p:
+			_on_ready_change(p)
+	)
+
 	ready_icon.visible = player_data.player_id == 1 # server id is always 1
 	pass # Replace with function body.
 
-func _on_ready_change(node:Node):
-	if not node is PlayerReady:
+func _on_ready_change(player:PlayerData):
+	if player != player_data:
 		return
-	var has_node := player_data.has_node("PlayerReady")
-	print("Local player has ready node: ", has_node)
-	ready_icon.visible = has_node
+	var has_ready_node := PlayerReady.is_ready(player_data)
+	print("Local player has ready node: ", has_ready_node)
+	ready_icon.visible = has_ready_node
 
 func change_color_from_signal(old_color:Color,color:Color):
 	print("%s, change_color_from_signal called" % str(multiplayer.get_remote_sender_id()))

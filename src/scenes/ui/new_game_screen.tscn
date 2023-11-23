@@ -1,13 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://c26xwdkhpqqqk"]
+[gd_scene load_steps=14 format=3 uid="uid://c26xwdkhpqqqk"]
 
 [ext_resource type="Script" path="res://src/scripts/ui/new_game_screen.gd" id="1_57cun"]
 [ext_resource type="Theme" uid="uid://b7tofqmlvwyc0" path="res://src/scenes/ui/themes/option_without_circles.tres" id="2_jmlns"]
+[ext_resource type="Script" path="res://src/scripts/utils/global_signal_propagator.gd" id="2_mdrku"]
 [ext_resource type="Script" path="res://src/scripts/ui/lobby_race_container.gd" id="2_n2mo4"]
 [ext_resource type="Script" path="res://src/scripts/ui/player_list.gd" id="3_v2tbh"]
 [ext_resource type="PackedScene" uid="uid://ct3tyaownltyx" path="res://src/scenes/ui/player_list_card.tscn" id="4_80fki"]
 [ext_resource type="Script" path="res://src/scripts/ui/lobby/race_selector.gd" id="4_ge6uh"]
 [ext_resource type="Script" path="res://src/scripts/ui/lobby/color_selector.gd" id="5_12inn"]
 [ext_resource type="Theme" uid="uid://loe77uwmapbv" path="res://src/scenes/ui/themes/lobby_button.tres" id="5_y26qe"]
+[ext_resource type="Script" path="res://src/scripts/ui/lobby/local_race_icon.gd" id="6_sor5r"]
+[ext_resource type="Script" path="res://src/scripts/ui/lobby/match_button.gd" id="11_jbbks"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yp33o"]
 skew = Vector2(0.25, 0)
@@ -36,6 +39,9 @@ _gui_race_selector = NodePath("RaceContainer/RaceSelector")
 _gui_color_selector = NodePath("ColorSelector")
 _gui_player_list = NodePath("PlayerList")
 _gui_match_button = NodePath("CenterContainer/HBoxContainer/MatchButton")
+
+[node name="GlobalSignalPropagator" type="Node" parent="."]
+script = ExtResource("2_mdrku")
 
 [node name="RaceContainer" type="VBoxContainer" parent="." node_paths=PackedStringArray("icon_holder", "description_label", "bonuses_label")]
 layout_mode = 1
@@ -80,6 +86,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("6_sor5r")
 
 [node name="DescriptionContainer" type="ScrollContainer" parent="RaceContainer"]
 layout_mode = 2
@@ -143,6 +150,7 @@ size_flags_horizontal = 3
 theme = ExtResource("5_y26qe")
 theme_override_font_sizes/font_size = 32
 text = "Ready"
+script = ExtResource("11_jbbks")
 
 [node name="LeaveButton" type="Button" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
@@ -150,6 +158,14 @@ theme = ExtResource("5_y26qe")
 theme_override_font_sizes/font_size = 32
 text = "Leave Game"
 
+[connection signal="local_player_loaded" from="GlobalSignalPropagator" to="." method="_on_local_player_loaded"]
+[connection signal="local_player_loaded" from="GlobalSignalPropagator" to="RaceContainer/AspectRatioContainer/SelectedRaceIconBackground/SelectedRaceIcon" method="_on_local_player_loaded"]
+[connection signal="player_left" from="GlobalSignalPropagator" to="." method="remove_player_from_list"]
+[connection signal="player_ready_changed" from="GlobalSignalPropagator" to="CenterContainer/HBoxContainer/MatchButton" method="_on_ready_changed"]
+[connection signal="player_spawned" from="GlobalSignalPropagator" to="." method="add_player_to_list"]
 [connection signal="item_selected" from="RaceContainer/RaceSelector" to="." method="_on_race_changed_idx"]
 [connection signal="item_selected" from="ColorSelector" to="." method="_on_color_changed_idx"]
-[connection signal="pressed" from="CenterContainer/HBoxContainer/MatchButton" to="." method="_on_match_button_click"]
+[connection signal="match_start" from="CenterContainer/HBoxContainer/MatchButton" to="." method="_on_match_start"]
+[connection signal="match_wait_started" from="CenterContainer/HBoxContainer/MatchButton" to="RaceContainer/RaceSelector" method="_on_match_wait_started"]
+[connection signal="match_wait_started" from="CenterContainer/HBoxContainer/MatchButton" to="ColorSelector" method="_on_match_wait_started"]
+[connection signal="match_wait_started" from="CenterContainer/HBoxContainer/MatchButton" to="CenterContainer/HBoxContainer/LeaveButton" method="set_disabled" binds= [true]]

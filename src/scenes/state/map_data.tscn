@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://de1ydojk8wpgq"]
+
+[ext_resource type="Script" path="res://src/scripts/mp_sync/map_data.gd" id="1_cdsea"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rxdft"]
+properties/0/path = NodePath(".:planets")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+properties/1/path = NodePath(".:game_planets")
+properties/1/spawn = true
+properties/1/sync = false
+properties/1/watch = true
+
+[node name="MapData" type="Node"]
+script = ExtResource("1_cdsea")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rxdft")

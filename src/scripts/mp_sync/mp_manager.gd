@@ -4,17 +4,15 @@ class_name MpManagerClass extends Node
 @onready var player_manager : PlayerManager = GameState.get_node("Players")
 const PORT := 4433
 
-
 signal peer_created()
 signal peer_initialized()
-
-
+signal peer_left(idx:int)
 
 func start_client(ip:String,port:int=PORT) -> ENetMultiplayerPeer:
 	var peer := ENetMultiplayerPeer.new()
 	peer.create_client(ip,port)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
-		OS.alert("Lmao couldn't start a client ya knob")
+		OS.alert("Lmao couldn't join to %s ya knob" % ip+":"+str(port))
 		return
 		
 	multiplayer.multiplayer_peer=peer
@@ -54,3 +52,4 @@ func _create_player(idx:int):
 	
 func _remove_player(idx:int):
 	player_manager.remove_player(idx)
+	peer_left.emit(idx)

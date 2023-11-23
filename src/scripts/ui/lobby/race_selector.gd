@@ -30,7 +30,8 @@ func _ready():
 	_load_races()
 	pass # Replace with function body.
 
-
+func _on_match_wait_started():
+	disabled = true
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

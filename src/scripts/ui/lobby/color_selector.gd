@@ -9,11 +9,10 @@ func _ready():
 
 func populate_with_colors(colors:Array[Color]) -> void:
 	clear()
-	var i := 0
-	for color in pickable_colors:
+	for i in colors.size():
+		var color := colors[i]
 		add_color_item(color)
 		inner_popup.set_item_as_radio_checkable(i,false)
-		i+=1
 	
 func _get_color_texture(color:Color) -> GradientTexture2D:
 	var new_texture := GradientTexture2D.new()
@@ -28,3 +27,6 @@ func _get_color_texture(color:Color) -> GradientTexture2D:
 func add_color_item(color:Color) -> void:
 	add_icon_item(_get_color_texture(color),"")
 	inner_popup.set_item_as_radio_checkable(item_count-1,false)
+
+func _on_match_wait_started() -> void:
+	disabled = true;
