@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://wagn5y4wwbcg"]
 
-[ext_resource type="PackedScene" uid="uid://cdobqol47qxni" path="res://src/scenes/trial_ship.tscn" id="1_pij2o"]
+[ext_resource type="PackedScene" uid="uid://b6ojinfknry1g" path="res://src/scenes/trial_ship.tscn" id="1_pij2o"]
 [ext_resource type="Script" path="res://src/scripts/springshit.gd" id="2_x5sn4"]
 [ext_resource type="Script" path="res://src/scripts/ui/utils/screen_edge_detect.gd" id="3_fenj4"]
 

@@ -1,53 +1,69 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=21 format=3 uid="uid://b6ojinfknry1g"]
 
 [ext_resource type="Script" path="res://src/scripts/unit.gd" id="1_p0pbv"]
 [ext_resource type="Script" path="res://src/scripts/components/RotateComponent.cs" id="2_nu8d5"]
+[ext_resource type="Script" path="res://src/scripts/pid/PidController.cs" id="2_tsn7h"]
+[ext_resource type="Script" path="res://src/scripts/pid/PidControllerAngular.cs" id="3_oqxlk"]
 
-[sub_resource type="PidController" id="PidController_mll8i"]
-proportional_gain = 0.5
-integral_gain = 0.1
-derivative_gain = 0.1
-integral_max = 10.0
-output_max = 1.0
-output_min = -1.0
-resource_local_to_scene = true
+[sub_resource type="Resource" id="Resource_ep2u4"]
+script = ExtResource("2_tsn7h")
+proportionalGain = 1.4
+integralGain = 0.08
+derivativeGain = 0.7
+integralMax = 1.0
+outputMax = 1.0
+outputMin = -1.0
+derivativeMeasurement = 0
 
-[sub_resource type="PidController" id="PidController_vofev"]
-proportional_gain = 0.5
-integral_gain = 0.1
-derivative_gain = 0.1
-integral_max = 10.0
-output_max = 1.0
-output_min = -1.0
-resource_local_to_scene = true
+[sub_resource type="Resource" id="Resource_epjgm"]
+script = ExtResource("2_tsn7h")
+proportionalGain = 1.4
+integralGain = 0.08
+derivativeGain = 0.7
+integralMax = 1.0
+outputMax = 1.0
+outputMin = -1.0
+derivativeMeasurement = 0
 
-[sub_resource type="PidController" id="PidController_wflic"]
-proportional_gain = 20.0
-integral_gain = 2.0
-derivative_gain = 2.0
-integral_max = 50.0
-output_max = 0.0
-output_min = -1.0
-resource_local_to_scene = true
+[sub_resource type="Resource" id="Resource_akxro"]
+script = ExtResource("2_tsn7h")
+proportionalGain = 1.4
+integralGain = 0.08
+derivativeGain = 0.7
+integralMax = 1.0
+outputMax = 1.0
+outputMin = -1.0
+derivativeMeasurement = 0
 
-[sub_resource type="PidControllerAngular" id="PidControllerAngular_lx8vg"]
-proportional_gain = 1.0
-derivative_gain = 0.2
-output_max = 1.0
-output_min = -1.0
+[sub_resource type="Resource" id="Resource_lxuxe"]
+script = ExtResource("3_oqxlk")
+proportionalGain = 1.4
+integralGain = 0.2
+derivativeGain = 0.2
+integralMax = 1.0
+outputMax = 1.0
+outputMin = -1.0
+derivativeMeasurement = 0
 
-[sub_resource type="PidControllerAngular" id="PidControllerAngular_v0oqa"]
-proportional_gain = 1.0
-derivative_gain = 0.2
-integral_max = 1.571
-output_max = 1.0
-output_min = -1.0
+[sub_resource type="Resource" id="Resource_q5uct"]
+script = ExtResource("3_oqxlk")
+proportionalGain = 1.4
+integralGain = 0.2
+derivativeGain = 0.2
+integralMax = 1.0
+outputMax = 1.0
+outputMin = -1.0
+derivativeMeasurement = 0
 
-[sub_resource type="PidControllerAngular" id="PidControllerAngular_dspgx"]
-proportional_gain = 1.0
-derivative_gain = 0.5
-output_max = 1.0
-output_min = -1.0
+[sub_resource type="Resource" id="Resource_rq1qh"]
+script = ExtResource("3_oqxlk")
+proportionalGain = 1.4
+integralGain = 0.2
+derivativeGain = 0.2
+integralMax = 1.0
+outputMax = 1.0
+outputMin = -1.0
+derivativeMeasurement = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nh3rj"]
 resource_name = "_defaultMat(Clone)"
@@ -213,18 +229,19 @@ radial_segments = 8
 rings = 4
 
 [node name="trial_ship" type="RigidBody3D" groups=["units"]]
+collision_layer = 0
 collision_mask = 0
 mass = 20.0
 gravity_scale = 0.0
 linear_damp = 0.5
 angular_damp_mode = 1
 script = ExtResource("1_p0pbv")
-_vel_pid_side = SubResource("PidController_mll8i")
-_vel_pid_height = SubResource("PidController_vofev")
-_vel_pid_backward = SubResource("PidController_wflic")
-_ang_pid_pitch = SubResource("PidControllerAngular_lx8vg")
-_ang_pid_yaw = SubResource("PidControllerAngular_v0oqa")
-_ang_pid_roll = SubResource("PidControllerAngular_dspgx")
+_vel_pid_side = SubResource("Resource_ep2u4")
+_vel_pid_height = SubResource("Resource_epjgm")
+_vel_pid_backward = SubResource("Resource_akxro")
+_ang_pid_pitch = SubResource("Resource_lxuxe")
+_ang_pid_yaw = SubResource("Resource_q5uct")
+_ang_pid_roll = SubResource("Resource_rq1qh")
 force = 150.0
 rot_force = 20.0
 

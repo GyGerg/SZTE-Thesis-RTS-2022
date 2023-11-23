@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using SZTEThesisRTS2022.scripts.pid;
 using ThesisRTS.AI;
 using ThesisRTS.AI.behaviors;
 
@@ -10,12 +11,10 @@ public enum UnitControlMode
 	Arrive,
 	Player
 }
-[GodotClassName(nameof(Unit))]
+[GodotClassName(nameof(Unit)), GlobalClass]
 public partial class Unit : RigidBody3D, IComparable<Unit>, IEquatable<Unit>, IAgentLinearVelocity, IAgentAngularVelocity
 {
 	private bool _isSelected = false;
-	[Export(PropertyHint.ResourceType, "PidController")]
-	private Resource _trialPidData;
 
 	private static readonly StringName pidController = "PidController";
 	private static readonly StringName PidGetValues = "get_pid_values";
@@ -56,10 +55,7 @@ public partial class Unit : RigidBody3D, IComparable<Unit>, IEquatable<Unit>, IA
 			}
 			else
 			{
-				var circ = GetNode("select_circle");
 				RemoveFromGroup("selected_units");
-				RemoveChild(circ);
-				circ.QueueFree();
 			}
 		}
 	}
@@ -70,13 +66,30 @@ public partial class Unit : RigidBody3D, IComparable<Unit>, IEquatable<Unit>, IA
 		get;
 		private set;
 	}
+	[ExportGroup("PID Controllers", "Pid")]
+	[ExportSubgroup("Linear PID", "_velPid")]
+	[Export] private PidController _velPidSide;
+	[Export] private PidController _velPidHeight;
+	[Export] private PidController _velPidBackward;
+
+	[ExportSubgroup("Angular PID", "_angPid")]
+	[Export] private PidController _angPidPitch;
+	[Export] private PidController _angPidYaw;
+	[Export] private PidController _angPidRoll;
+
+	[ExportGroup("Angular Speed Limits", "_angLim")]
+	[Export(hint: PropertyHint.Range, hintString: "-PI, PI")] private float _angLimPitch;
+	[Export(hint: PropertyHint.Range, hintString: "-PI, PI")] private float _angLimRoll;
+	[Export(hint: PropertyHint.Range, hintString: "-PI, PI")] private float _angLimYaw;
+
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
 		_velocity = Vector3.Zero;
 		if(RotateComponent is {})
 			RotateComponent._angularLimits = new AgentAngularVelocityLimits(AngularSpeedMax, AngularAccelerationMax);
-		
 		var timer = GetTree().CreateTimer(0);
 		timer.Timeout += () =>
 		{

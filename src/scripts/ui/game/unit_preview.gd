@@ -11,8 +11,9 @@ class_name UIUnitPreview extends UIIcon
 @export var _unit_count:int = 0:
 	set(val):
 		_unit_count=val
-		ui_unit_counter.text = str(val)
-		ui_unit_counter.visible = val > 0
+		if ui_unit_counter:
+			ui_unit_counter.text = str(val)
+			ui_unit_counter.visible = val > 0
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

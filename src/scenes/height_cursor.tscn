@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://cjsy1acea5v0w"]
 
-[ext_resource type="ImmediateMesh" uid="uid://dxbod4pdtgyea" path="res://assets/meshes/height_cursor_mesh.tres" id="1_06vo4"]
+[ext_resource type="ImmediateMesh" uid="uid://dhp1wreal6tv" path="res://assets/meshes/height_cursor_mesh.tres" id="1_06vo4"]
 [ext_resource type="Script" path="res://src/scripts/ui/game/rts/HeightCursor.cs" id="2_1b2g6"]
-[ext_resource type="ImmediateMesh" uid="uid://bn832dnqvju0e" path="res://assets/meshes/new_circle_immediate.tres" id="3_uvmpj"]
+[ext_resource type="ImmediateMesh" uid="uid://b8wldidf6713n" path="res://assets/meshes/new_circle_immediate.tres" id="3_uvmpj"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_e3xp6"]
 

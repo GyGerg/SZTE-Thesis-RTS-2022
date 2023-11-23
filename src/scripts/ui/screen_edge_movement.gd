@@ -3,7 +3,8 @@ class_name ScreenEdgeMovement extends Node3D
 signal position_moved(difference: Vector2)
 signal distance_changed(new_distance: float)
 
-@onready var _camera_node := $Camera3D
+var zoom_enabled := true
+@export var _camera_node : Camera3D
 
 @export_category("RTS Camera")
 
@@ -52,14 +53,14 @@ func on_edge_move(input:Vector2,delta:float) -> void:
 	var asd := ((transform.basis.x.normalized()*input.x) + (transform.basis.z.normalized()*input.y))
 	asd.y = 0
 	asd = asd.normalized()*input.length()
-	translate(asd*_last_delta)
+	translate_object_local(Vector3(input.x,0,input.y)*_last_delta)
 	pass
 
 func _process(delta:float):
 	_last_delta = delta
 	pass
 
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var mouseEvt := event as InputEventMouseMotion
 		_last_mouse_pos = mouseEvt.position
@@ -95,3 +96,7 @@ func _input(event):
 			_zoom_tween.tween_property(_camera_node, "position", new_transform.origin, _last_delta*8)
 			_zoom_tween.tween_property(self, "_current_zoom_value", calced, _last_delta*8)
 			_zoom_tween.play()
+
+func _on_minimap_click_at(pos):
+	global_position = Vector3(pos.x,0,pos.y)
+	pass # Replace with function body.

@@ -12,7 +12,7 @@ signal edge_detected_process(side:Vector2,delta:float)
 func _ready():
 	pass # Replace with function body.
 
-func _calculate_translation_vector_2d(direction:Vector2, input:float) -> Vector2:
+func _calculate_edge_vector_2d(direction:Vector2, input:float) -> Vector2:
 	var segment_divider := edge_size / (edge_segments-1)
 	var translateSpeed := edge_segments - (input/segment_divider)
 	return direction*(translateSpeed)
@@ -23,20 +23,20 @@ func _process(delta):
 		return
 	var mouse_pos := _viewport.get_mouse_position()
 	var size := _viewport.get_visible_rect().size
-	var translateVector := Vector2.ZERO
+	var edgeVector := Vector2.ZERO
 	
 	if mouse_pos.x < edge_size:
-		translateVector += _calculate_translation_vector_2d(Vector2.LEFT, mouse_pos.x)
+		edgeVector += _calculate_edge_vector_2d(Vector2.LEFT, mouse_pos.x)
 	elif size.x - mouse_pos.x < edge_size:
-		translateVector += _calculate_translation_vector_2d(Vector2.RIGHT, size.x-mouse_pos.x)
+		edgeVector += _calculate_edge_vector_2d(Vector2.RIGHT, size.x-mouse_pos.x)
 	if mouse_pos.y < edge_size:
-		translateVector += _calculate_translation_vector_2d(Vector2.UP, mouse_pos.y)
+		edgeVector += _calculate_edge_vector_2d(Vector2.UP, mouse_pos.y)
 	elif size.y - mouse_pos.y < edge_size:
-		translateVector += _calculate_translation_vector_2d(Vector2.DOWN, size.y-mouse_pos.y)
+		edgeVector += _calculate_edge_vector_2d(Vector2.DOWN, size.y-mouse_pos.y)
 		
-	translateVector = translateVector.limit_length(edge_segments)
+	edgeVector = edgeVector.limit_length(edge_segments)
 	
-	if not translateVector == Vector2.ZERO:
-		edge_detected.emit(translateVector)
-		edge_detected_process.emit(translateVector,delta)
+	if not edgeVector == Vector2.ZERO:
+		edge_detected.emit(edgeVector)
+		edge_detected_process.emit(edgeVector,delta)
 	pass

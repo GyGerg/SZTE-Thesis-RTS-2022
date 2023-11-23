@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.HighPerformance;
 using NoAlloq;
 using Godot;
 
@@ -223,7 +224,7 @@ public class FlowField
 		var neighbors = cell.GetNeighbors(in directions);
 		int nLen = neighbors.Length;
 		Span<Cell> neighborCells = new(new Cell[nLen]);
-		neighborCells = neighbors.Select(vec => GetCellAtPosition(vec)).ConsumeInto(neighborCells);
+		neighborCells = neighbors.Select(vec => GetCellAtPosition(vec)).ConsumeInto(neighborCells).ToArray();
 
 		return neighborCells;
 	}
@@ -245,7 +246,7 @@ public class FlowField
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static ReadOnlySpan<Vector3I> GetNeighborsOf(in Cell cell)
 	{
-		return cell.GetNeighbors(Directions8);
+		return cell.GetNeighbors(Directions8).ToArray();
 	}
 
 }

@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://src/scripts/ship_spawner_stress_test.gd" id="3_1buft"]
 [ext_resource type="Script" path="res://src/scripts/ui/game/rts/CursorManager.cs" id="3_wj6q3"]
 [ext_resource type="Script" path="res://src/scripts/ui/game/rts/SelectUnitsControl.cs" id="4_p4mcv"]
-[ext_resource type="PackedScene" path="res://src/scenes/height_cursor.tscn" id="6_l3cmy"]
-[ext_resource type="Script" path="res://src/scripts/proc_gen/blue_noise.gd" id="8_80ylg"]
+[ext_resource type="PackedScene" uid="uid://cjsy1acea5v0w" path="res://src/scenes/height_cursor.tscn" id="6_l3cmy"]
+[ext_resource type="Script" path="res://src/scripts/proc_gen/BlueNoiseGenerator.cs" id="8_myra8"]
+[ext_resource type="Script" path="res://src/scripts/proc_gen/planet_generator.gd" id="9_0em1f"]
 [ext_resource type="PackedScene" path="res://src/scenes/utils/screen_edge_detect.tscn" id="9_4govk"]
-[ext_resource type="Script" path="res://src/scripts/generate_random_balls.gd" id="9_jn6rh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0ycbn"]
 
@@ -82,8 +82,9 @@ offset_bottom = 23.0
 text = "Selected Units: 0"
 script = ExtResource("2_v1hal")
 
-[node name="CameraController" type="Node3D" parent="."]
+[node name="CameraController" type="Node3D" parent="." node_paths=PackedStringArray("_camera_node")]
 script = ExtResource("2_5d5ij")
+_camera_node = NodePath("Camera3D")
 zoom_backward_limit = 200
 zoom_speed_multiplier = 200
 scroll_speed = 8.0
@@ -99,8 +100,8 @@ heightCursorScene = ExtResource("6_l3cmy")
 
 [node name="ShipSpawner" type="Node3D" parent="Node3D"]
 script = ExtResource("3_1buft")
-spread = 1.0
-dim_size = 1
+spread = 3.0
+dim_size = 3
 
 [node name="Children" type="Node3D" parent="Node3D/ShipSpawner"]
 
@@ -117,12 +118,12 @@ omni_range = 11.835
 [node name="ScreenEdgeCameraMove" parent="Utils" instance=ExtResource("9_4govk")]
 
 [node name="BlueNoiseGen" type="Node3D" parent="."]
-script = ExtResource("8_80ylg")
-sector_count_axis = 10
+script = ExtResource("8_myra8")
+SectorCountAxis = 10
 
 [node name="Node3D" type="MultiMeshInstance3D" parent="BlueNoiseGen"]
 multimesh = SubResource("MultiMesh_ryke3")
-script = ExtResource("9_jn6rh")
+script = ExtResource("9_0em1f")
 
 [connection signal="OnSelectedUnitsChanged" from="UI/UnitSelector" to="UI/SelectedUnitsCounter" method="_on_selected_count_change"]
 [connection signal="distance_changed" from="CameraController" to="UI/UnitSelector" method="OnCameraDistanceChanged"]

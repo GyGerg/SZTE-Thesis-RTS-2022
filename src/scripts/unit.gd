@@ -33,7 +33,7 @@ var curr_update_period : int = 0
 
 var _is_selected : bool = false :
 	set(val):
-		if not (val is bool):
+		if not (val is bool) or _is_selected == val:
 			return
 		if _is_selected != val:
 			if val:
@@ -58,13 +58,13 @@ func _physics_process(delta):
 		pass
 	else:
 		_do_move_stuff(delta,global_position-(linear_velocity*delta),true)
-#		_do_rotate_stuff(delta,global_position-transform.basis.z)
+		_do_rotate_stuff(delta,global_position-transform.basis.z)
 		pass
 	last_forward = _get_forward(global_transform)
 	curr_update_period+=1
 
-
 func _do_move_stuff(delta:float, target:Vector3, side_enabled := false):
+## valami doc
 	var target_local := to_local(target)
 #	print("local target: ", target_local)
 	var lin_vel := to_local(global_position+linear_velocity)
@@ -72,9 +72,9 @@ func _do_move_stuff(delta:float, target:Vector3, side_enabled := false):
 	var desired_velocity := target_local.z#minf(target_local.z,0)
 	var side_target:Vector2 = Vector2.ZERO if not side_enabled else Vector2(target_local.x,target_local.y)
 	var mov := Vector3(
-		_vel_pid_side.update(lin_vel.x,side_target.x,delta),
-		_vel_pid_height.update(lin_vel.y,side_target.y,delta),
-		_vel_pid_backward.update(lin_vel.z,desired_velocity,delta),
+		_vel_pid_side.Update(lin_vel.x,side_target.x,delta) as float,
+		_vel_pid_height.Update(lin_vel.y,side_target.y,delta) as float,
+		_vel_pid_backward.Update(lin_vel.z,desired_velocity,delta) as float,
 	)
 #	print("mov: ", mov)
 	apply_central_force(transform.basis.x*mov.x*force)
@@ -188,18 +188,19 @@ func _do_rotate_stuff(delta:float,target:Vector3):
 	print("vec diff: ",vec3_diff)
 #	apply_torque(transform.basis*values*delta*rot_force*mass)
 	print(curr_update_period)
+	
 	match curr_update_period:
 		0:
 			if angle != 0:
-				apply_torque(transform.basis.x*_ang_pid_pitch.update(ang_vel.x,vec3_diff.x,delta)*delta*rot_force*mass)
+				apply_torque(transform.basis.x*_ang_pid_pitch.Update(ang_vel.x,vec3_diff.x,delta)*delta*rot_force*mass)
 			pass
 		1:
 			if angle != 0:
-				apply_torque(transform.basis.y*_ang_pid_yaw.update(ang_vel.y,vec3_diff.y,delta)*delta*rot_force*mass)
+				apply_torque(transform.basis.y*_ang_pid_yaw.Update(ang_vel.y,vec3_diff.y,delta)*delta*rot_force*mass)
 			pass
 		2:
 			if absf(ang_vel.x) < 0.2 and absf(ang_vel.y) < 0.2:
-				apply_torque(transform.basis.z*_ang_pid_roll.update(rotation.z,0,delta)*delta*rot_force*mass)
+				apply_torque(transform.basis.z*_ang_pid_roll.Update(rotation.z,0,delta)*delta*rot_force*mass)
 			pass
 		_:
 			print("reseting curr update period")
@@ -207,12 +208,15 @@ func _do_rotate_stuff(delta:float,target:Vector3):
 			pass
 	return
 	if angle != 0:
-		var pitch_yaw := Vector2(_ang_pid_pitch.update(ang_vel.x,vec3_diff.x,delta),_ang_pid_yaw.update(ang_vel.y,vec3_diff.y,delta))
+		var pitch_yaw := Vector2(
+			_ang_pid_pitch.Update(ang_vel.x,vec3_diff.x,delta),
+			_ang_pid_yaw.Update(ang_vel.y,vec3_diff.y,delta)
+		)
 		apply_torque(transform.basis.x*pitch_yaw.x*delta*rot_force*mass)
 		apply_torque(transform.basis.y*pitch_yaw.y*delta*rot_force*mass)
 	var pitch_yaw_curr := Vector2(ang_vel.x,ang_vel.y).abs()
 	if pitch_yaw_curr.x < 0.2 and pitch_yaw_curr.y < 0.2:
-		var roll_val := _ang_pid_roll.update(rotation.z,0,delta)
+		var roll_val : float = _ang_pid_roll.Update(rotation.z,0,delta)
 		apply_torque(transform.basis.z*roll_val*delta*rot_force*mass)
 	
 	

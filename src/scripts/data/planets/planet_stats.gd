@@ -18,6 +18,9 @@ const SYSTEM_NAMES : Array[String] = [
 	"Tabraetis",
 	"Maepra",
 	"Yanoth",
+	"Chebulon",
+	"Atrix",
+	"Ytra"
 ]
 const PLANET_NUM : Array[String] = ["I","II","III","IV","V"]
 
